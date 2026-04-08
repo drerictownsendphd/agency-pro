@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You — Agency PRO | The AI Docs Lab™</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --gold: #D4A017;
+    --gold-light: #F5C842;
+    --gold-dim: #8A6800;
+    --white: #F5F0E8;
+    --gray: #1A1A1A;
+    --gray2: #2A2A2A;
+    --muted: #888;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 40%, rgba(212,160,23,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .card {
+    background: var(--gray);
+    border: 1px solid var(--gold-dim);
+    border-top: 3px solid var(--gold);
+    max-width: 580px;
+    width: 100%;
+    padding: 48px 40px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 80px rgba(212,160,23,0.1);
+    animation: fadeUp 0.6s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .check-circle {
+    width: 72px;
+    height: 72px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 2rem;
+    animation: pop 0.4s 0.3s ease both;
+    transform: scale(0);
+  }
+
+  @keyframes pop {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 8vw, 4rem);
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .sub {
+    font-size: 1.05rem;
+    color: #C8C0B0;
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    margin: 28px 0;
+  }
+
+  .steps-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .steps {
+    list-style: none;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 0.97rem;
+    color: #C8C0B0;
+    line-height: 1.6;
+  }
+
+  .steps li .num {
+    width: 26px;
+    height: 26px;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+    margin-top: 1px;
+  }
+
+  .steps li strong { color: var(--white); }
+
+  .btn-download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 18px 40px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 0 40px rgba(212,160,23,0.35);
+    width: 100%;
+    margin-bottom: 12px;
+    animation: fadeUp 0.6s 0.4s ease both;
+    opacity: 0;
+  }
+
+  .btn-download:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 0 60px rgba(212,160,23,0.55);
+  }
+
+  .secure-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .support-box {
+    background: var(--gray2);
+    border-left: 3px solid var(--gold-dim);
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 0.9rem;
+    color: #A09080;
+    line-height: 1.65;
+  }
+
+  .support-box strong { color: var(--white); }
+
+  .brand {
+    margin-top: 32px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .brand span { color: var(--gold); }
+
+  @media (max-width: 520px) {
+    .card { padding: 36px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="check-circle">✓</div>
+  <div class="eyebrow">Payment Confirmed</div>
+  <h1>You're In.<br>Let's Build.</h1>
+  <p class="sub">
+    Welcome to <strong>The AI Docs Lab™</strong>. Your copy of <strong>Agency PRO</strong> is ready. 
+    Click the button below to download your complete bundle.
+  </p>
+
+  <div class="divider"></div>
+
+  <div class="steps-label">What's Inside Your Download</div>
+  <ul class="steps">
+    <li>
+      <span class="num">1</span>
+      <span><strong>AIDOCSLAB_AgencyPRO.html</strong> — Your 21-module AI content engine. Open it in Google Chrome and enter your free Groq API key to get started.</span>
+    </li>
+    <li>
+      <span class="num">2</span>
+      <span><strong>AgencyPRO_Commercial_Guide.pdf</strong> — Step-by-step setup guide, full module list, troubleshooting, and your Commercial Use License.</span>
+    </li>
+  </ul>
+
+  <!-- REPLACE THIS HREF WITH YOUR GITHUB RAW ZIP URL -->
+  <a class="btn-download" href="https://github.com/drerictownsendphd/agency-pro/raw/main/AgencyPRO_Bundle.zip" download="AgencyPRO_Bundle.zip">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    Download Agency PRO Bundle
+  </a>
+  <div class="secure-note">🔒 Your purchase is protected · One-time payment · Commercial license included</div>
+
+  <div class="support-box">
+    <strong>Need help?</strong> Email <strong>theaidocslab@gmail.com</strong> and we'll get back to you within 24 hours. Please include your purchase email so we can look up your order.
+  </div>
+</div>
+
+<div class="brand">© 2026 <span>The AI Docs Lab™</span> · Dr. Eric Townsend · All Rights Reserved</div>
+
+</body>
+</html>
