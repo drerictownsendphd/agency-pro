@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agency PRO — The AI Docs Lab™</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --gold: #D4A017;
+    --gold-light: #F5C842;
+    --gold-dim: #8A6800;
+    --white: #F5F0E8;
+    --red: #C0392B;
+    --gray: #1A1A1A;
+    --gray2: #2A2A2A;
+    --text-muted: #888;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── ANNOUNCEMENT BAR ── */
+  .announcement {
+    background: var(--red);
+    text-align: center;
+    padding: 10px 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    animation: pulse-bar 2s ease-in-out infinite;
+    position: relative;
+    z-index: 10;
+  }
+
+  @keyframes pulse-bar {
+    0%, 100% { background: var(--red); }
+    50% { background: #a93226; }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px 60px;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(212,160,23,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    padding: 6px 18px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    color: var(--white);
+    margin-bottom: 16px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero-headline .gold { color: var(--gold); }
+  .hero-headline .strike {
+    position: relative;
+    color: var(--text-muted);
+  }
+  .hero-headline .strike::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    height: 4px;
+    background: var(--red);
+    transform: rotate(-2deg);
+  }
+
+  .hero-sub {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 400;
+    color: #C0B090;
+    max-width: 680px;
+    margin: 24px auto 40px;
+    animation: fadeUp 0.6s 0.2s ease both;
+    font-style: italic;
+  }
+
+  .hero-sub strong { color: var(--white); font-style: normal; }
+
+  .cta-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 18px 52px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 0 40px rgba(212,160,23,0.35);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 0 60px rgba(212,160,23,0.55); }
+  .btn-primary:hover::after { transform: translateX(100%); }
+
+  .guarantee-note {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── STORY SECTION ── */
+  .section { position: relative; z-index: 1; }
+
+  .story {
+    background: var(--gray);
+    padding: 80px 24px;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .container-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .story h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1;
+    margin-bottom: 30px;
+    color: var(--white);
+  }
+
+  .story p {
+    font-size: 1.15rem;
+    color: #C8C0B0;
+    margin-bottom: 22px;
+    line-height: 1.75;
+  }
+
+  .story p strong { color: var(--white); }
+
+  .story .big-quote {
+    border-left: 4px solid var(--gold);
+    padding: 20px 28px;
+    margin: 40px 0;
+    background: rgba(212,160,23,0.06);
+    font-size: 1.35rem;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.6;
+  }
+
+  /* ── PROBLEM AGITATION ── */
+  .problem {
+    padding: 80px 24px;
+    background: var(--black);
+  }
+
+  .problem h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1;
+    margin-bottom: 40px;
+    color: var(--white);
+  }
+
+  .pain-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .pain-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 1.1rem;
+    color: #C8C0B0;
+    padding: 16px 20px;
+    background: var(--gray);
+    border-left: 3px solid var(--red);
+  }
+
+  .pain-list li .icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+
+  /* ── WHAT IS IT ── */
+  .product {
+    padding: 80px 24px;
+    background: var(--gray);
+  }
+
+  .product h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .product .tagline {
+    font-size: 1.2rem;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 40px;
+    font-style: italic;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+    margin-bottom: 60px;
+  }
+
+  .feature-card {
+    background: var(--black);
+    padding: 32px 28px;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-dim));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .feature-card:hover { border-bottom-color: var(--gold); }
+  .feature-card:hover::before { opacity: 1; }
+
+  .feature-card .feat-icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .feature-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .feature-card p {
+    font-size: 0.97rem;
+    color: #A09080;
+    line-height: 1.6;
+  }
+
+  /* ── WHAT YOU GET ── */
+  .whats-inside {
+    padding: 80px 24px;
+    background: var(--black);
+  }
+
+  .whats-inside h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .whats-inside .sub {
+    color: #C8C0B0;
+    margin-bottom: 48px;
+    font-size: 1.1rem;
+  }
+
+  .inside-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .inside-list li {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #1E1E1E;
+    font-size: 1.05rem;
+    color: var(--white);
+  }
+
+  .inside-list li .check {
+    width: 28px;
+    height: 28px;
+    background: var(--gold);
+    color: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+  }
+
+  .inside-list li .value {
+    margin-left: auto;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .value-total {
+    text-align: right;
+    padding: 24px 0;
+    border-top: 2px solid var(--gold-dim);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    letter-spacing: 0.05em;
+  }
+
+  .value-total span { color: var(--gold); font-size: 2rem; }
+
+  /* ── SOCIAL PROOF ── */
+  .proof {
+    padding: 80px 24px;
+    background: var(--gray);
+  }
+
+  .proof h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1;
+    margin-bottom: 40px;
+    color: var(--white);
+    text-align: center;
+  }
+
+  .testimonials {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .testimonial {
+    background: var(--black);
+    padding: 28px 24px;
+    border-top: 3px solid var(--gold);
+  }
+
+  .testimonial .stars {
+    color: var(--gold);
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+    letter-spacing: 0.1em;
+  }
+
+  .testimonial p {
+    font-size: 1rem;
+    color: #C8C0B0;
+    line-height: 1.65;
+    font-style: italic;
+    margin-bottom: 16px;
+  }
+
+  .testimonial .author {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ── PRICING ── */
+  .pricing {
+    padding: 80px 24px;
+    background: var(--black);
+    text-align: center;
+  }
+
+  .pricing h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .pricing .urgency {
+    font-size: 1rem;
+    color: var(--red);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 40px;
+  }
+
+  .price-box {
+    background: var(--gray);
+    border: 2px solid var(--gold);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    padding: 48px 40px;
+    position: relative;
+    box-shadow: 0 0 80px rgba(212,160,23,0.15);
+  }
+
+  .price-box .badge {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    white-space: nowrap;
+  }
+
+  .price-box .was {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+    margin-bottom: 8px;
+  }
+
+  .price-box .price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .price-box .price-note {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+
+  .price-box .btn-primary {
+    width: 100%;
+    text-align: center;
+    font-size: 1.4rem;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .price-box .secure-note {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  /* ── FAQ ── */
+  .faq {
+    padding: 80px 24px;
+    background: var(--gray);
+  }
+
+  .faq h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    margin-bottom: 48px;
+    color: var(--white);
+    text-align: center;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid #2A2A2A;
+    padding: 24px 0;
+  }
+
+  .faq-q {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    user-select: none;
+  }
+
+  .faq-q .arrow {
+    color: var(--gold);
+    font-size: 1.4rem;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .faq-q.open .arrow { transform: rotate(45deg); }
+
+  .faq-a {
+    font-size: 1rem;
+    color: #A09080;
+    line-height: 1.75;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    padding-top: 0;
+  }
+
+  .faq-a.open {
+    max-height: 300px;
+    padding-top: 16px;
+  }
+
+  /* ── FINAL CTA ── */
+  .final-cta {
+    padding: 100px 24px;
+    background: var(--black);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,160,23,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .final-cta h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.95;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  .final-cta h2 .gold { color: var(--gold); }
+
+  .final-cta p {
+    font-size: 1.2rem;
+    color: #C8C0B0;
+    max-width: 560px;
+    margin: 0 auto 40px;
+    font-style: italic;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #050505;
+    padding: 32px 24px;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    border-top: 1px solid #1A1A1A;
+    line-height: 2;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer a { color: var(--gold-dim); text-decoration: none; }
+  footer a:hover { color: var(--gold); }
+
+  /* ── STICKY CTA BAR ── */
+  .sticky-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--gold);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    z-index: 999;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+    box-shadow: 0 -4px 30px rgba(212,160,23,0.4);
+  }
+
+  .sticky-bar.visible { transform: translateY(0); }
+
+  .sticky-bar span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--black);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .sticky-bar .btn-dark {
+    background: var(--black);
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 28px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .sticky-bar .btn-dark:hover { background: #1A1A1A; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── COUNTDOWN ── */
+  .countdown-wrap {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .countdown-block {
+    background: var(--gray2);
+    border: 1px solid var(--gold-dim);
+    padding: 16px 20px;
+    min-width: 72px;
+    text-align: center;
+  }
+
+  .countdown-block .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .countdown-block .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* ── DIVIDER ── */
+  .gold-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 600px) {
+    .sticky-bar span { display: none; }
+    .price-box { padding: 40px 24px; }
+    .price-box .price { font-size: 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement">
+  ⚡ Launch Pricing Ends Soon — Lock In Your Rate Before It's Gone ⚡
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">The AI Docs Lab™ Presents</div>
+  <h1 class="hero-headline">
+    They Counted<br>
+    Me <span class="strike">Out</span><br>
+    I Built <span class="gold">An Empire</span>
+  </h1>
+  <p class="hero-sub">
+    Laid off at 64. <strong>150 rejected resumes.</strong> Zero callbacks. So I stopped begging for a seat at the table —
+    and built the table myself. Now I'm handing you the blueprints.
+  </p>
+  <div class="cta-group">
+    <a href="#pricing" class="btn-primary">Give Me Agency PRO Now →</a>
+    <span class="guarantee-note">🔒 Instant Access · No Subscription · Runs In Your Browser</span>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- STORY -->
+<section class="story section">
+  <div class="container">
+    <div class="section-label reveal">The Origin Story</div>
+    <h2 class="reveal">The System<br>Was Not Built<br>For Us.</h2>
+    <p class="reveal">I spent <strong>15+ years</strong> building call centers, managing teams, and delivering results for other people's companies. Then one day — like it's been happening to millions of us — they let me go. I was 64.</p>
+    <p class="reveal">I sent out <strong>150 resumes</strong>. You know what happened. The silence was deafening. The algorithms buried me. The gatekeepers moved on.</p>
+    <div class="big-quote reveal">
+      "They don't want to pay for your experience. They want to pay for your youth. So I decided to stop selling my time — and start selling my intelligence."
+    </div>
+    <p class="reveal">I spent months studying AI. Not the hype. The actual tools. The actual systems. I got certified. I built. I tested. I failed. I rebuilt. And somewhere in that process — <strong>Agency PRO was born.</strong></p>
+    <p class="reveal">This isn't a course. This isn't theory. This is the <strong>exact AI-powered command center</strong> I use to run a one-person operation that delivers like a full agency team.</p>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- PROBLEM AGITATION -->
+<section class="problem section">
+  <div class="container">
+    <div class="section-label reveal">Sound Familiar?</div>
+    <h2 class="reveal">You're Working<br>Twice As Hard<br>For Half The Result.</h2>
+    <ul class="pain-list">
+      <li class="reveal"><span class="icon">🔥</span> You're spending hours on documents, proposals, and client deliverables that should take 20 minutes</li>
+      <li class="reveal"><span class="icon">🔥</span> You've tried AI tools but they're scattered, expensive, and require a PhD to connect them</li>
+      <li class="reveal"><span class="icon">🔥</span> Every "all-in-one" platform charges you monthly — even when you're not making monthly revenue yet</li>
+      <li class="reveal"><span class="icon">🔥</span> You feel like the big agencies have an unfair advantage — and you're right, they do</li>
+      <li class="reveal"><span class="icon">🔥</span> You're not a developer, but every powerful AI tool assumes you are</li>
+    </ul>
+    <p class="reveal" style="font-size:1.2rem; color: var(--white); font-weight:700;">What if you had the same AI infrastructure as a 10-person agency — in a single browser tab?</p>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- PRODUCT -->
+<section class="product section">
+  <div class="container-wide" style="padding: 0 24px;">
+    <div class="section-label reveal" style="text-align:center;">Introducing</div>
+    <h2 class="reveal" style="text-align:center; font-size: clamp(3rem, 8vw, 6rem);">Agency PRO</h2>
+    <p class="tagline reveal" style="text-align:center;">"The AI-Powered Command Center Built for the Solo Operator Who Refuses to Lose."</p>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <span class="feat-icon">⚡</span>
+        <h3>Dual AI Engine</h3>
+        <p>Powered by both Groq AND Anthropic APIs. Switch between blazing-fast generation and deep strategic thinking — without leaving your browser.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feat-icon">📄</span>
+        <h3>AI Document Generator</h3>
+        <p>Proposals, SOPs, client deliverables, onboarding docs — generated in minutes, not hours. Formatted. Professional. Ready to send.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feat-icon">🔐</span>
+        <h3>Built-In License Agreement</h3>
+        <p>The Demo Use License Agreement is already baked in. Protect your work from day one without paying a lawyer.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feat-icon">🖥️</span>
+        <h3>Zero Cloud Dependency</h3>
+        <p>Runs entirely in your browser. No monthly SaaS. No data leaving your machine. Total sovereignty over your operation.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feat-icon">📘</span>
+        <h3>Full Setup Guide PDF</h3>
+        <p>Step-by-step from zero to fully operational. No tech background required. If you can use a browser, you can run Agency PRO.</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feat-icon">🏗️</span>
+        <h3>Built to Scale</h3>
+        <p>Start solo. Add clients. The architecture grows with you — without forcing you onto an enterprise plan you can't afford.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- WHAT'S INSIDE -->
+<section class="whats-inside section">
+  <div class="container">
+    <div class="section-label reveal">Everything Included</div>
+    <h2 class="reveal">Here's Exactly<br>What You Get</h2>
+    <p class="sub reveal">Every single item. No hidden upsells. No "Pro tier required."</p>
+    <ul class="inside-list">
+      <li class="reveal">
+        <span class="check">✓</span>
+        Agency PRO HTML App (Full Version)
+        <span class="value">$197 value</span>
+      </li>
+      <li class="reveal">
+        <span class="check">✓</span>
+        Groq + Anthropic Dual API Integration
+        <span class="value">$97 value</span>
+      </li>
+      <li class="reveal">
+        <span class="check">✓</span>
+        AI Document Generator Module
+        <span class="value">$147 value</span>
+      </li>
+      <li class="reveal">
+        <span class="check">✓</span>
+        Demo Use License Agreement (Ready to Deploy)
+        <span class="value">$97 value</span>
+      </li>
+      <li class="reveal">
+        <span class="check">✓</span>
+        Full PDF Setup & Implementation Guide
+        <span class="value">$47 value</span>
+      </li>
+      <li class="reveal">
+        <span class="check">✓</span>
+        Lifetime Updates — You Buy Once, You Own It
+        <span class="value">Priceless</span>
+      </li>
+    </ul>
+    <div class="value-total reveal">
+      Total Real-World Value: <span>$585+</span>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- SOCIAL PROOF -->
+<section class="proof section">
+  <div class="container-wide" style="padding: 0 24px;">
+    <h2 class="reveal">Real People.<br>Real Results.</h2>
+    <div class="testimonials">
+      <div class="testimonial reveal">
+        <div class="stars">★★★★★</div>
+        <p>"I've been trying to figure out AI tools for months. Agency PRO is the first thing that actually made sense to me. I had my first client deliverable out in two hours."</p>
+        <div class="author">— M. Washington, Freelance Consultant</div>
+      </div>
+      <div class="testimonial reveal">
+        <div class="stars">★★★★★</div>
+        <p>"No subscription? Runs in my browser? I was skeptical. Then I opened it and my jaw dropped. This is what the big agencies are using — scaled down for people like us."</p>
+        <div class="author">— T. Rivera, Small Business Coach</div>
+      </div>
+      <div class="testimonial reveal">
+        <div class="stars">★★★★★</div>
+        <p>"Dr. Eric built this from real experience, not theory. You can feel the difference. This isn't some course — it's a tool you'll use every single day."</p>
+        <div class="author">— K. Johnson, Digital Creator</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- PRICING -->
+<section class="pricing section" id="pricing">
+  <div class="container">
+    <div class="section-label reveal">Make Your Move</div>
+    <h2 class="reveal">Stop Watching.<br>Start Winning.</h2>
+    <p class="urgency reveal">⚠️ Launch pricing will not last — price increases when the timer hits zero</p>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown-wrap reveal">
+      <div class="countdown-block">
+        <div class="num" id="cd-h">23</div>
+        <div class="label">Hours</div>
+      </div>
+      <div class="countdown-block">
+        <div class="num" id="cd-m">59</div>
+        <div class="label">Mins</div>
+      </div>
+      <div class="countdown-block">
+        <div class="num" id="cd-s">59</div>
+        <div class="label">Secs</div>
+      </div>
+    </div>
+
+    <div class="price-box reveal">
+      <div class="badge">Most Popular — Solo Operator</div>
+      <div class="was">Regular Price: $197</div>
+      <div class="price">$97</div>
+      <div class="price-note">One-time payment. Yours forever. No recurring fees.</div>
+      <!-- REPLACE href WITH YOUR STRIPE/PAYPAL LINK -->
+      <a href="YOUR_STRIPE_OR_PAYPAL_LINK_HERE" class="btn-primary">
+        Yes! Give Me Agency PRO →
+      </a>
+      <div class="secure-note">
+        🔒 Secure Checkout &nbsp;|&nbsp; Instant Download &nbsp;|&nbsp; 7-Day Guarantee
+      </div>
+    </div>
+
+    <p class="reveal" style="color: var(--text-muted); font-size: 0.9rem; max-width: 480px; margin: 0 auto; font-style: italic;">
+      "If Agency PRO doesn't help you look more professional, work faster, and deliver better — email me and I'll refund every cent. No hoops. No games." — Dr. Eric Townsend
+    </p>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- FAQ -->
+<section class="faq section">
+  <div class="container">
+    <h2 class="reveal">Questions?<br>I Got Answers.</h2>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">Do I need to know how to code? <span class="arrow">+</span></div>
+      <div class="faq-a">Absolutely not. If you can open a browser and type, you can run Agency PRO. The setup guide walks you through everything step by step.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">What AI models does it use? <span class="arrow">+</span></div>
+      <div class="faq-a">Agency PRO connects to both Groq (ultra-fast generation) and Anthropic Claude (deep reasoning). You bring your own API keys — both have generous free tiers to start.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">Is there a monthly fee after I buy? <span class="arrow">+</span></div>
+      <div class="faq-a">Zero. You pay once and it's yours forever. The only ongoing cost is your API usage, which starts free and scales with what you actually use.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">What if it doesn't work for me? <span class="arrow">+</span></div>
+      <div class="faq-a">7-day no-questions refund. Email Dr. Eric directly at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ff928d9a8d969c8b9088918c9a919b8c8dbf98929e9693d19c9092">[email&#160;protected]</a>. Done.</div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">Who is this for? <span class="arrow">+</span></div>
+      <div class="faq-a">Freelancers, consultants, coaches, small business owners, and solo operators who want to deliver agency-quality work without agency-level overhead. If you're building something real, this is for you.</div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- FINAL CTA -->
+<section class="final-cta section">
+  <h2 class="reveal">
+    You Were Built<br>
+    For <span class="gold">More</span><br>
+    Than This.
+  </h2>
+  <p class="reveal">The system overlooked you. The algorithm buried you. The gatekeepers moved on. Now it's your turn to move — on your terms.</p>
+  <a href="#pricing" class="btn-primary reveal" style="font-size: 1.4rem; padding: 20px 60px;">
+    Claim Agency PRO Now →
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong style="color: var(--gold);">The AI Docs Lab™</strong> — Built by the people they overlooked.</p>
+  <p>Dr. Eric Townsend | <a href="/cdn-cgi/l/email-protection#4b26392e3922283f243c25382e252f38390b2c262a222765282426"><span class="__cf_email__" data-cfemail="8ce1fee9fee5eff8e3fbe2ffe9e2e8fffeccebe1ede5e0a2efe3e1">[email&#160;protected]</span></a></p>
+  <p style="margin-top:12px;">
+    <a href="#">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="#">Terms of Service</a> &nbsp;·&nbsp;
+    <a href="#">Refund Policy</a>
+  </p>
+  <p style="margin-top:12px; font-size:0.75rem;">
+    © 2026 The AI Docs Lab™. All rights reserved. Results may vary. Testimonials reflect individual experiences.
+  </p>
+</footer>
+
+<!-- STICKY BAR -->
+<div class="sticky-bar" id="stickyBar">
+  <span>🔥 Launch Price: $97 — One Time</span>
+  <a href="#pricing" class="btn-dark">Get Agency PRO →</a>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── STICKY BAR ──
+  const stickyBar = document.getElementById('stickyBar');
+  window.addEventListener('scroll', () => {
+    stickyBar.classList.toggle('visible', window.scrollY > 600);
+  });
+
+  // ── FAQ TOGGLE ──
+  function toggleFaq(el) {
+    const answer = el.nextElementSibling;
+    const isOpen = answer.classList.contains('open');
+    document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-q').forEach(q => q.classList.remove('open'));
+    if (!isOpen) { answer.classList.add('open'); el.classList.add('open'); }
+  }
+
+  // ── COUNTDOWN ──
+  function startCountdown() {
+    const stored = localStorage.getItem('agencyProCountdown');
+    const end = stored ? parseInt(stored) : Date.now() + 24 * 60 * 60 * 1000;
+    if (!stored) localStorage.setItem('agencyProCountdown', end);
+    function tick() {
+      const diff = Math.max(0, end - Date.now());
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = M
